@@ -1,11 +1,10 @@
-var five = require("johnny-five");
 var board = new five.Board({
     port: "/dev/cu.usbmodem1411"
 });
 
 board.on("ready", function() {
 
-    var stepper = new five.Stepper({
+    this.stepper = new five.Stepper({
         type: five.Stepper.TYPE.FOUR_WIRE,
         stepsPerRev: 520,
         pins: {
@@ -15,8 +14,13 @@ board.on("ready", function() {
             motor4: 11
         }
     });
+});
 
-    stepper.rpm(20).ccw().step(2000, function() {
-        console.log("done");
+
+io.on('connection', function(socket){
+    socket.on('startMotor', function(motorBody){
+        board.stepper.rpm(20).step(2000, function() {
+            console.log("Done stepping!");
+        });
     });
 });
