@@ -6,5 +6,5 @@ board.on("ready", function() {
     var led = new five.Led(13);
 
     // Strobe the pin on/off, defaults to 100ms phases
-    led.strobe();
+    led.strobe(1000);
 });
